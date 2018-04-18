@@ -11,7 +11,7 @@ const routes= require('./routes/index.js');
 
 
 var db=require('./connect.js');
-var dba=require('./connect2.js');
+
 
 
 
