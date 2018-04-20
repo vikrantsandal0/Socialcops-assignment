@@ -6,7 +6,7 @@ var config={
  host:'localhost',
  user:'root',
  password:'',
- database:'final2',
+ database:'final3',
  port:3308
 
 }
@@ -24,8 +24,8 @@ async function conn () {
 	    
 	    
 	    
-	    var result=await	AdminInit.initAdmin();
-	    console.log(result);
+	    
+	    
 
 		
 	} catch(e) {

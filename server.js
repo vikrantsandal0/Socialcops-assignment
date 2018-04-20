@@ -8,8 +8,6 @@ const cors= require('cors');
 const routes= require('./routes/index.js');
 
 
-
-
 var db=require('./connect.js');
 
 
@@ -25,7 +23,7 @@ var server = Hapi.server({port:9000,routes:{cors:{additionalHeaders:["accept","a
 
 
 
-async function hiii() {
+async function StartServer() {
 
 
     
@@ -81,7 +79,7 @@ async function hiii() {
 
 
 
-  hiii();
+  StartServer();
 
 
 server.route(routes);
