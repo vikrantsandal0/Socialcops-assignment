@@ -2,6 +2,7 @@ const services = require('../services');
 const suc=require('../boom/boom.js').MessageSuccess;
 const msg= require('../boom/boom.js').errorMessage.eng;
 const async = require('async');
+const logging   = require('../logging');
 
 module.exports={
 
@@ -11,16 +12,15 @@ module.exports={
     try{
 
     let email=await services.user.check(payload.email);
-
-    console.log(email.length);
+    
+    
     if(email.length>0){
 
        return msg.emailExit;
     }
     else{
       let phone= await services.user.checkPhone(payload.contact,payload.countryCode);
-      console.log("yeh check hai phone ka");
-      console.log(phone.length);
+      
       if(phone.length>0){
         return msg.phoneExit;
       }
@@ -33,7 +33,7 @@ module.exports={
   }
 
   catch(err){
-    console.log(err);
+    logging.logError(err);
   }
   },
 
@@ -45,7 +45,7 @@ module.exports={
     if(mail.length<1)
       return msg.userNotFound;
     let status=await services.user.checkpass(body);
-    console.log(status);
+    
   return status;
     }
     catch(e){
@@ -81,17 +81,17 @@ module.exports={
   thumbnail:async(payload,headers)=>{
     try{
        let Checked= await services.user.CheckToken(headers);
-       console.log(Checked,"****token checked  result");
+       
         if(Checked){
 
-       console.log("andr gya???");
+       
        let image =await services.user.DownloadImage(payload);
-        console.log("return in controllers", image);
+        
        return image ;
 
        }
        else{
-        console.log("gyaaa kya else");
+      
           return false;
           
         }

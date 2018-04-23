@@ -32,6 +32,8 @@
     "joi": "^13.1.2",
     "json-patch": "^0.7.0",
     "jsonwebtoken": "^8.2.0",
+    "log4js": "^2.5.3",
+    "moment": "^2.22.1",
     "mongodb": "^3.0.5",
     "mysql": "^2.15.0",
     "nodemon": "^1.17.2",
@@ -43,6 +45,10 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "mocha": "^5.1.1"
   }
 }

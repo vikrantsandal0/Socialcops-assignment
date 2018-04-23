@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const jsonPatch= require('json-patch');
 var request= require('request');
 const fs = require('fs');
+var logging   = require('../logging.js');
  
 var sharp= require('sharp');
 
@@ -24,32 +25,37 @@ module.exports={
 
       let result=await connection.query("select * from user where email = ?",[email])
 
+
     return result
      }
      catch(err){
-      console.log(err);
+      logging.logError(err);
      }
      
   },
 
   AddData:async (data)=>
   {
+    var Reference = {
+        module: 'Signup',
+        api   : '/user/v1/addUser'
+    };
           
          
     try{
+      logging.log({EVENT:Reference, REQUEST_BODY:data});
 
        const salt =await  bcrypt.genSalt(5);
         const hash =  await bcrypt.hash(data.password, salt);
          const bigresult= await bcrypt.compare(data.password,hash);
-         console.log(hash);
-         console.log("****************heres the answer***********", bigresult);
+         
       
           data.password=hash;
           
       data.contact= data.countryCode+data.contact;
       
       
-    console.log("****************heres the same answer***********", bigresult);
+    
    await  connection.query('INSERT INTO user(name,email,password,contact,createdAt) VALUES (?,?,?,?,CURRENT_TIMESTAMP)',[data.name,data.email,data.password,data.contact])
     
   
@@ -65,7 +71,7 @@ return {'status':suc.Updated.status,message:suc.Cool.message,data:{'id':result[0
 
     }
     catch(err){
-      console.log(err);
+      logging.logError(err);
       
   }
     },
@@ -79,12 +85,12 @@ return {'status':suc.Updated.status,message:suc.Cool.message,data:{'id':result[0
 
 
       let result=await connection.query("select * from user where contact = ?",[contact]);
-      console.log(result);
+      
 
     return result
      }
      catch(err){
-      console.log(err);
+      logging.logError(err);
      }
      
   },
@@ -101,32 +107,30 @@ return {'status':suc.Updated.status,message:suc.Cool.message,data:{'id':result[0
 
   }
   catch(err){
-    console.log(err);
+    logging.logError(err);
+  
   }
   },
 
 
    checkpass:async (body)=>
   {
+    var Reference = {
+        module: 'Login',
+        api   : '/user/v1/login'
+    };
     try{
+       logging.log({EVENT:Reference,REQUEST_BODY:body});
        
       const result= await connection.query("select * from user where email = ?",[body.email]);
         const b= result[0].password;
-
-         console.log("password in database", b);
-         console.log(body.password);
+        let a= await  bcrypt.compare(body.password, b);
          
-
-         let a= await  bcrypt.compare(body.password, b);
-         console.log("bcrypt compare result");
-          console.log(a);
-
 
    
    
     if(a==true){
-      console.log(result);
-
+     
 var token= jwt.sign({id:result[0].id, username: result[0].name}, secret.key1, { algorithm: 'HS256'});
 
   
@@ -140,7 +144,7 @@ var token= jwt.sign({id:result[0].id, username: result[0].name}, secret.key1, { 
     }
     
   catch(err){
-    console.log(err);
+    logging.logError(err);
   }
   },
 
@@ -148,13 +152,17 @@ var token= jwt.sign({id:result[0].id, username: result[0].name}, secret.key1, { 
 
 
   CheckToken:async(headers)=>{
+    var Reference = {
+        module: 'Token Check'
+    };
 
 try {
+  logging.log({EVENT:Reference,REQUEST_HEADERS:headers.authorization});
 
      const token= headers.authorization;
 
   let result= await jwt.verify(token,secret.key1);
-  console.log("*********services token check",result);
+  
   return result;
   
 } catch(e) {
@@ -172,7 +180,13 @@ return false;
 
 
 ReturnPatch: async(payload)=>{
+   var Reference = {
+        module: 'Json-patch',
+        api   : '/user/v1/jsonPatch'
+    };
   try{
+     logging.log({EVENT:Reference,REQUEST_BODY:payload});
+
 
     let result= await jsonPatch.apply(payload.patch1, payload.patch2);
      return  {'Status':suc.Cool.status,'message':suc.Cool.message,data:{result}};
@@ -187,10 +201,16 @@ catch(e){
 
 
 DownloadImage:async(payload)=>{
-   console.log("yhaan aya");
+  var Reference = {
+        module: 'thumbnail generation',
+        api   : '/user/v1/thumbnail'
+    };
+   
 
 
  try{
+  logging.log({EVENT:Reference,REQUEST_BODY:payload});
+
 
     const filename= 'resized.jpeg';
     const filename2='original.jpeg';
