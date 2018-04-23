@@ -3,7 +3,7 @@ const async = require('async');
 const jwt = require('jsonwebtoken');
 const jsonPatch= require('json-patch');
 var request= require('request');
- var fs = require('fs');
+const fs = require('fs');
  
 var sharp= require('sharp');
 
@@ -38,8 +38,8 @@ module.exports={
          
     try{
 
-        var salt =await  bcrypt.genSalt(5);
-         var hash =  await bcrypt.hash(data.password, salt);
+       const salt =await  bcrypt.genSalt(5);
+        const hash =  await bcrypt.hash(data.password, salt);
          const bigresult= await bcrypt.compare(data.password,hash);
          console.log(hash);
          console.log("****************heres the answer***********", bigresult);
@@ -110,8 +110,8 @@ return {'status':suc.Updated.status,message:suc.Cool.message,data:{'id':result[0
   {
     try{
        
-       var result= await connection.query("select * from user where email = ?",[body.email]);
-         var b= result[0].password;
+      const result= await connection.query("select * from user where email = ?",[body.email]);
+        const b= result[0].password;
 
          console.log("password in database", b);
          console.log(body.password);
@@ -150,7 +150,8 @@ var token= jwt.sign({id:result[0].id, username: result[0].name}, secret.key1, { 
   CheckToken:async(headers)=>{
 
 try {
-      var token= headers.authorization;
+
+     const token= headers.authorization;
 
   let result= await jwt.verify(token,secret.key1);
   console.log("*********services token check",result);
@@ -186,17 +187,18 @@ catch(e){
 
 
 DownloadImage:async(payload)=>{
-  
+   console.log("yhaan aya");
 
 
  try{
-     var filename= 'resized.jpeg';
-     var filename2='original.jpeg';
+
+    const filename= 'resized.jpeg';
+    const filename2='original.jpeg';
      
-     var inst;
+    
   
 
-        var download=(uri, filename)=>{
+       const download=(uri, filename)=>{
     request.head(uri, function(err, res, body){
     
     console.log('content-type:', res.headers['content-type']);

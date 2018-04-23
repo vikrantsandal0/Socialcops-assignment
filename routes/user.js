@@ -1,25 +1,18 @@
 
-var contro= require('../controllers');
-
- var fs= require('fs');
-    
-var Joi= require('joi');
-var request= require('request');
-var path= require('path');
+const contro= require('../controllers');
+const services = require('../services');
+const fs= require('fs');  
+const Joi= require('joi');
+const request= require('request');
+const path= require('path');
 const suc=require('../boom/boom.js').MessageSuccess;
+const msg= require('../boom/boom.js').errorMessage.eng;
+
+
+
 
 
 const routes=([
-
-
-    
-
-
-
-
-
-
-
   //in hapi information comes in payload   
      {
 
@@ -225,11 +218,23 @@ config: {
 
       handler: async function (req,h) {
         try{
-           
-      var image= await contro.user.thumbnail(req.payload,req.headers);
-      var link='http://localhost:9000/user/v1/resizedImage'
-      return {'Status':suc.Cool.status,'message':suc.Cool.message,data:{link}};  
-      }
+          
+           const imageStatus= await contro.user.thumbnail(req.payload,req.headers);
+              if(imageStatus){
+                const link='http://localhost:9000/user/v1/resizedImage'
+      return {'Status':suc.Cool.status,'message':suc.Cool.message,data:{link}}; 
+
+
+              }
+              else{
+
+                return msg.InvalidToken;
+              }
+       
+    
+        
+    }       
+     
        catch(err){
       throw  err;
          }

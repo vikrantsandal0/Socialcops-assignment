@@ -19,10 +19,6 @@ var server = Hapi.server({port:9000,routes:{cors:{additionalHeaders:["accept","a
 // Create the data store for the test API
 
 
-
-
-
-
 async function StartServer() {
 
 
@@ -65,16 +61,9 @@ async function StartServer() {
 
 };
 
-
-
   StartServer();
 
-
 server.route(routes);
-
-
-
-
 
 module.exports=server;
 

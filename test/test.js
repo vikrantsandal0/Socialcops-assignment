@@ -24,7 +24,7 @@ chai.use(chaiHttp);
         
         chai.request('http://localhost:9000')
             .post('/user/v1/JsonPatch')
-            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoibmlrZSIsImlhdCI6MTUyNDQ4MDc0N30.K0JqrrQPs3jrWoq6y04Er3o6GhEiv9jdkftiOhP2_eQ')
+            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInVzZXJuYW1lIjoic3ViaCIsImlhdCI6MTUyNDQ5OTAyM30.atPx2QJAKZMn8210aKRupzyamkGtoK4P34IDo-6VPLQ')
             .send(patch)
             .end((err, res) => {
                
@@ -47,12 +47,13 @@ chai.use(chaiHttp);
         
         chai.request('http://localhost:9000')
             .post('/user/v1/thumbnail')
-            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoibmlrZSIsImlhdCI6MTUyNDQ4MDc0N30.K0JqrrQPs3jrWoq6y04Er3o6GhEiv9jdkftiOhP2_eQ')
+            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInVzZXJuYW1lIjoic3ViaCIsImlhdCI6MTUyNDQ5OTAyM30.atPx2QJAKZMn8210aKRupzyamkGtoK4P34IDo-6VPLQ')
             .type('form')
             .send({
               'url':'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350'
             })
             .end((err, res) => {
+              console.log(res);
                   
                 res.should.have.status(200);
                  res.body.should.be.a('object');

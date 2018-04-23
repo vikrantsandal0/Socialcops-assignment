@@ -1,10 +1,6 @@
 const services = require('../services');
 const suc=require('../boom/boom.js').MessageSuccess;
 const msg= require('../boom/boom.js').errorMessage.eng;
-
-
-
-
 const async = require('async');
 
 module.exports={
@@ -47,7 +43,7 @@ module.exports={
     try{
       let mail= await services.user.checkmail(body.email);
     if(mail.length<1)
-      return msg.userNotFounD;
+      return msg.userNotFound;
     let status=await services.user.checkpass(body);
     console.log(status);
   return status;
@@ -88,13 +84,16 @@ module.exports={
        console.log(Checked,"****token checked  result");
         if(Checked){
 
+       console.log("andr gya???");
        let image =await services.user.DownloadImage(payload);
         console.log("return in controllers", image);
        return image ;
 
        }
        else{
-          return msg.InvalidToken;
+        console.log("gyaaa kya else");
+          return false;
+          
         }
 
 
