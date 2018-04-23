@@ -26,18 +26,6 @@ var server = Hapi.server({port:9000,routes:{cors:{additionalHeaders:["accept","a
 async function StartServer() {
 
 
-    
- 
-
-
-
-
-
-
-
-
-
-
   const swaggerOptions = {
         info: {
                 title: 'Test API Documentation',
@@ -88,7 +76,7 @@ server.route(routes);
 
 
 
-
+module.exports=server;
 
 
 

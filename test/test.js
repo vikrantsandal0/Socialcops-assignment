@@ -1,36 +1,68 @@
-var http = require('http');
-var assert = require('assert');
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../server');
+let should = chai.should();
 
-var server = require('../server.js');
+chai.use(chaiHttp);
 
-describe('HTTP Server Test', function() {
-	// The function passed to before() is called before running the test cases.
-	before(function() {
-		server.listen(9000);
-	});
 
-	// The function passed to after() is called after running the test cases.
-	after(function() {
-		server.close();
-	});
+  /*
+  * Test the /POST route of login
+  */
+  describe('/json patch', () => {
+      it('it should apply a patch on a given json document', (done) => {
+        let patch = {
+           
+  "patch1": {
+  "baz": "qux",
+  "foo": "bar"
+},
+  "patch2": [
+  { "op": "replace", "path": "/baz", "value": "boo" }
+]
+}
+        
+        chai.request('http://localhost:9000')
+            .post('/user/v1/JsonPatch')
+            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoibmlrZSIsImlhdCI6MTUyNDQ4MDc0N30.K0JqrrQPs3jrWoq6y04Er3o6GhEiv9jdkftiOhP2_eQ')
+            .send(patch)
+            .end((err, res) => {
+               
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+              done();
+            });
+      });
 
-	describe('/', function() {
-		it('should be Hello, Mocha!', function(done) {
-			http.get('http://127.0.0.1:8989', function(response) {
-				// Assert the status code.
-				assert.equal(response.statusCode, 200);
+  });
 
-                                var body = '';
-				response.on('data', function(d) {
-					body += d;
-				});
-				response.on('end', function() {
-					// Let's wait until we read the response, and then assert the body
-					// is 'Hello, Mocha!'.
-					assert.equal(body, 'Hello, Mocha!');
-					done();
-				});
-			});
-		});
-	});
-});
+
+/*
+  * Test the /POST route of thumbnail
+  */
+
+  describe('/thumbnail', () => {
+      it('it should take in an image url, download the image,crop it', (done) => {
+        
+        
+        chai.request('http://localhost:9000')
+            .post('/user/v1/thumbnail')
+            .set('authorization','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoibmlrZSIsImlhdCI6MTUyNDQ4MDc0N30.K0JqrrQPs3jrWoq6y04Er3o6GhEiv9jdkftiOhP2_eQ')
+            .type('form')
+            .send({
+              'url':'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350'
+            })
+            .end((err, res) => {
+                  
+                res.should.have.status(200);
+                 res.body.should.be.a('object');
+                
+              done();
+            });
+      });
+
+  });
+
+
+
+   
