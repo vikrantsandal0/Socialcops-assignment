@@ -1,6 +1,6 @@
 
 const mysql= require('async-mysql');
-const AdminInit=require('./utils/sqlQueries.js');
+
 var config={
  
  host:'localhost',

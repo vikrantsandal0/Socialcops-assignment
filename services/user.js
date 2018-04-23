@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken');
 const jsonPatch= require('json-patch');
 var request= require('request');
  var fs = require('fs');
-
+ 
+var sharp= require('sharp');
 
 var secret=require('../config.js');
 const bcrypt=require('bcrypt');
 const msg= require('../boom/boom.js').errorMessage.eng;
-const suc=require('../boom/boom.js').MessageSuccess
-var Ufunctions= require('../utils/universalFunctions.js');
+const suc=require('../boom/boom.js').MessageSuccess;
 
 
 
@@ -153,6 +153,7 @@ try {
       var token= headers.authorization;
 
   let result= await jwt.verify(token,secret.key1);
+  console.log("*********services token check",result);
   return result;
   
 } catch(e) {
@@ -173,7 +174,7 @@ ReturnPatch: async(payload)=>{
   try{
 
     let result= await jsonPatch.apply(payload.patch1, payload.patch2);
-     return result;
+     return  {'Status':suc.Cool.status,'message':suc.Cool.message,data:{result}};
 
 }
 catch(e){
@@ -185,25 +186,37 @@ catch(e){
 
 
 DownloadImage:async(payload)=>{
+  
 
 
  try{
-     var filename= 'image.jpeg';
-    var download = function(uri, filename){
-  request.head(uri, function(err, res, body){
+     var filename= 'resized.jpeg';
+     var filename2='original.jpeg';
+     
+     var inst;
+  
+
+        var download=(uri, filename)=>{
+    request.head(uri, function(err, res, body){
+    
     console.log('content-type:', res.headers['content-type']);
     console.log('content-length:', res.headers['content-length']);
+     request(uri).pipe(fs.createWriteStream(filename2));
 
-    request(uri).pipe(fs.createWriteStream(filename));
-  });
-};
+     const pipeline = sharp().resize(50,50)
+   
+     request(uri).pipe(pipeline).pipe(fs.createWriteStream(filename));
+     
 
-  download(payload.url, filename);
+ });
 
 
+  };
+  download(payload.url,filename);
+  return filename;
 
+}
 
- }
  catch(e){
     throw e;
 

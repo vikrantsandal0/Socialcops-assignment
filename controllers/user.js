@@ -85,10 +85,13 @@ module.exports={
   thumbnail:async(payload,headers)=>{
     try{
        let Checked= await services.user.CheckToken(headers);
+       console.log(Checked,"****token checked  result");
         if(Checked){
 
-       let =await services.user.DownloadImage(payload);
-       return ;
+       let image =await services.user.DownloadImage(payload);
+        console.log("return in controllers", image);
+       return image ;
+
        }
        else{
           return msg.InvalidToken;

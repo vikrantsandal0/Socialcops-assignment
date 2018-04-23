@@ -1,11 +1,12 @@
 
 var contro= require('../controllers');
 
- 
+ var fs= require('fs');
     
 var Joi= require('joi');
 var request= require('request');
 var path= require('path');
+const suc=require('../boom/boom.js').MessageSuccess;
 
 
 const routes=([
@@ -97,7 +98,7 @@ config: {
            patch2:Joi.array().required().items(Joi.object().keys({
                         op: Joi.string().optional(),
                         path: Joi.string().optional(),
-                        value:Joi.string().optional()
+                        value:Joi.any()
                         
                     }))
           
@@ -135,35 +136,6 @@ config: {
 
       
       },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
        {
 
@@ -214,6 +186,7 @@ config: {
 
        {
 
+
       method:'POST',
       path:'/user/v1/thumbnail',
 
@@ -253,7 +226,9 @@ config: {
       handler: async function (req,h) {
         try{
            
-      return await contro.user.thumbnail(req.payload,req.headers);
+      var image= await contro.user.thumbnail(req.payload,req.headers);
+      var link='http://localhost:9000/user/v1/resizedImage'
+      return {'Status':suc.Cool.status,'message':suc.Cool.message,data:{link}};  
       }
        catch(err){
       throw  err;
@@ -264,7 +239,54 @@ config: {
 
 
 
-    }
+    },
+
+
+
+      {
+
+
+      method:'GET',
+      path:'/user/v1/resizedImage',
+
+config: {
+          
+
+        description: 'gets resizedImage',
+        notes: 'resized image',
+      
+        },
+
+
+      handler: async function (req,h) {
+        try{
+          if (fs.existsSync('./resized.jpeg')) {
+            return h.file('./resized.jpeg');
+   
+              }
+              else{
+                return 'no such file exists';
+              }
+
+          
+       
+      }
+       catch(err){
+      throw  err;
+         }
+
+
+     } 
+
+
+
+    },
+
+
+
+
+
+
     ]);
 
 
