@@ -3,9 +3,18 @@ Back-end assignment
 
 This assignment contains 4 APIs  , applying a json-patch, creating thumbnail, user login, and one for user signup also.
 
+
 ### Prerequisites
   You need to have nvm(node version manager) and xampp installed. This project uses node version 8.11.1 and in case of any issues popping try "nvm install 8.11.1"
 and "nvm use 8.11.1" . Folder contains a final3.sql file which you can import to have login and signup functionality working for you.
+
+#### cloning
+branch that contains code  - socialcops, therefore 
+
+```
+git clone 'remote link' -b socialcops
+
+```
   
 ### Major libraries/frameworks used
 * Node.js
