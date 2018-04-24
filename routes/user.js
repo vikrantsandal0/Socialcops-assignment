@@ -220,18 +220,14 @@ config: {
         try{
           
            const imageStatus= await contro.user.thumbnail(req.payload,req.headers);
-              if(imageStatus){
+          
+              if(imageStatus==="resized.jpeg"){
                 const link='http://localhost:9000/user/v1/resizedImage'
       return {'Status':suc.Cool.status,'message':suc.Cool.message,data:{link}}; 
-
-
               }
               else{
-
                 return msg.InvalidToken;
               }
-       
-    
         
     }       
      

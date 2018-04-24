@@ -83,17 +83,11 @@ module.exports={
        let Checked= await services.user.CheckToken(headers);
        
         if(Checked){
-
-       
-       let image =await services.user.DownloadImage(payload);
-        
-       return image ;
-
+            let image =await services.user.DownloadImage(payload);
+            return image ;
        }
        else{
-      
           return false;
-          
         }
 
 

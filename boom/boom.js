@@ -11,9 +11,7 @@ module.exports = {
             InvalidToken:Boom.unauthorized("invalid token"),
             AlreadyVerified:Boom.conflict("Already verified"),
             WrongPassword:Boom.conflict("Wrong password"),
-            
-
-
+            NotValidImageUrl:Boom.conflict("not a valid url")
 
         }
     },

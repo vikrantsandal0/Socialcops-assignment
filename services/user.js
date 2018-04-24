@@ -208,42 +208,36 @@ DownloadImage:async(payload)=>{
 
     const filename= 'resized.jpeg';
     const filename2='original.jpeg';
-     
-    
   
 
        const download=(uri, filename)=>{
     request.head(uri, function(err, res, body){
-    
     console.log('content-type:', res.headers['content-type']);
     console.log('content-length:', res.headers['content-length']);
+   
      request(uri).pipe(fs.createWriteStream(filename2));
 
      const pipeline = sharp().resize(50,50)
    
      request(uri).pipe(pipeline).pipe(fs.createWriteStream(filename));
-     
-
+   
+          
  });
 
 
   };
-  download(payload.url,filename);
-  return filename;
+  await download(payload.url,filename);
 
+  return filename;
+ 
 }
 
  catch(e){
-    throw e;
+    return e;
+       }
 
 
- }
-
-
-}
-
-
-
+},
 
 
 }
