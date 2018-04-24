@@ -7,7 +7,23 @@ This assignment contains 4 APIs  , applying a json-patch, creating thumbnail, us
   You need to have nvm(node version manager) and xampp installed. This project uses node version 8.11.1 and in case of any issues popping try "nvm install 8.11.1"
 and "nvm use 8.11.1" . Folder contains a final3.sql file which you can import to have login and signup functionality working for you.
   
-###how to start 
+### Major libraries/frameworks used
+* Node.js
+* Hapi.js
+* hapi-swagger.js
+* boom.js
+* chai.js
+* jsonwebtoken
+* async-mysql
+* bcrypt.js
+
+  
+  
+  
+  
+  
+  
+### how to start 
 
 ```
 1- import final3.sql in database,
@@ -26,7 +42,7 @@ module is missing run - npm install
 some examples of data you will find when run:
 
 
-####signup
+#### signup
 
 use +91 as country code just for convenience,
 password must be atleast 5 letters long
@@ -45,7 +61,7 @@ password must be atleast 5 letters long
 ```
 
 
-####login
+#### login
 ```
 {
   "Status": 200,
@@ -61,7 +77,7 @@ password must be atleast 5 letters long
 
 Use this token generated everytime when you login in authorization header during  thumbnail generation and applying patch .
 
-####jsonpatch
+#### jsonpatch
 
 after adding the token . Write the json patch ,which basically is an object of one object and one array of objects(also displayed
 on swagger).
@@ -80,7 +96,7 @@ patch 2: the array of operations which will be applied
 }
 
 ```
-####thumbnail generation
+#### thumbnail generation
 
 after adding the token , add the url of the image which will be downloaded and resized .you will get a link of the api where you can
 actually see thumbnail plus it will be uploaded to your local assignment folder.
