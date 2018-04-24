@@ -5,9 +5,7 @@ const jsonPatch= require('json-patch');
 var request= require('request');
 const fs = require('fs');
 var logging   = require('../logging.js');
- 
 var sharp= require('sharp');
-
 var secret=require('../config.js');
 const bcrypt=require('bcrypt');
 const msg= require('../boom/boom.js').errorMessage.eng;
@@ -19,8 +17,6 @@ module.exports={
 
   check:async (email)=>
   {
-
-     
      try{
 
       let result=await connection.query("select * from user where email = ?",[email])
@@ -48,8 +44,6 @@ module.exports={
        const salt =await  bcrypt.genSalt(5);
         const hash =  await bcrypt.hash(data.password, salt);
          const bigresult= await bcrypt.compare(data.password,hash);
-         
-      
           data.password=hash;
           
       data.contact= data.countryCode+data.contact;
